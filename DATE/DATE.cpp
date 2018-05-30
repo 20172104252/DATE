@@ -20,28 +20,39 @@ public:
 		Year = y;
 		Month = m;
 		Day = d;
-        if ((Year / 4 == 0 && Year / 100 != 0) || Year / 400 == 0)
+        if ((Year % 4 == 0 && Year % 100 != 0) || Year % 400 == 0)
             years[1] = 29;
+		if (Day > years[Month - 1])
+		{
+			Day = Day - years[Month-1];
+			Month++;
+		}
+		if (Month > 12)
+		{
+			Year++;
+			Month = Month % 12;
+		}
 	}
 	void display();
 	CDate operator +(CDate & obj);
 };
 void CDate::display()
 {
-	cout << Year << "  year" << Month << "   month" << Day << endl;
+	cout << Year << "  year " << Month << "   month " << Day << "   Day"<<endl;
 }
 CDate CDate::operator+(CDate & obj)
 {
-	int i, days = 0;
 	CDate temp;
-	if (Month + obj.Month > 12)
-	{
-
-	}
+	temp.setvalue(Year + obj.Year, Month + obj.Month, Day + obj.Day);
 	return temp;
 }
 int main()
 {
+	CDate a, b, c;
+	a.setvalue(2008, 2, 29);
+	b.setvalue(0, 10,2);
+	c = a + b;
+	c.display();
     return 0;
 }
 
